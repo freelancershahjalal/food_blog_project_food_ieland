@@ -11,7 +11,7 @@ class UpdateProfileRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,14 @@ class UpdateProfileRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = $this->user()->id;
+
         return [
-            //
+            'name' => 'sometimes|required|string|max:255',
+            // Ensure email is unique, but ignore the current user's own email
+            'email' => 'sometimes|required|email|max:255|unique:users,email,'.$userId,
+            'bio' => 'nullable|string',
+            'profile_image' => 'nullable|image|max:2048',
         ];
     }
 }

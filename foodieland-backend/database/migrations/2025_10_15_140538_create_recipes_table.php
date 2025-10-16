@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('short_description');
             $table->json('ingredients');
             $table->text('steps');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->unsignedTinyInteger('rating')->default(0);
+            $table->decimal('rating', 2, 1)->nullable();
             $table->timestamps();
         });
     }

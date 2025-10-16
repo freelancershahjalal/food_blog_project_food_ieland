@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRecipeRequest extends FormRequest
+class UpdateBlogRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,11 @@ class StoreRecipeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255|unique:recipes',
-            'category_id' => 'required|exists:categories,id',
-            'short_description' => 'required|string|max:500',
-            'ingredients' => 'required|json',
-            'steps' => 'required|string',
-            'image' => 'required|image|max:2048',
+            'sometimes|required|string|max:255|unique:blogs,title,' . $this->route('blog')->id,
+            'category_id' => 'sometimes|required|exists:categories,id',
+            'short_description' => 'sometimes|required|string|max:500',
+            'content' => 'sometimes|required|string',
+            'image' => 'nullable|image|max:2048',
         ];
     }
 }

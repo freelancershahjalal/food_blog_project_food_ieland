@@ -13,28 +13,24 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/auth/{provider}/redirect', [SocialAuthController::class, 'redirectToProvider']);
 Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'handleProviderCallback']);
-
+Route::post('/contact', [ContactController::class, 'store']);
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
-    Route::put('/profile', [ProfileController::class, 'update']);
+    Route::post('/profile', [ProfileController::class, 'update']);
     Route::delete('/profile', [ProfileController::class, 'destroy']);
 
-    Route::post('/recipes', [RecipeController::class, 'store']);
-    Route::put('/recipes/{id}', [RecipeController::class, 'update']);
-    Route::delete('/recipes/{id}', [RecipeController::class, 'destroy']);
+    Route::apiResource('recipes', RecipeController::class)->only([
+        'store', 'update', 'destroy',
+    ]);
 
-    Route::post('/blogs', [BlogController::class, 'store']);
-    Route::put('/blogs/{id}', [BlogController::class, 'update']);
-    Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
-
+    Route::apiResource('blogs', BlogController::class)->except(['index']);
     Route::get('/messages', [ContactController::class, 'index']);
 });
 
