@@ -30,7 +30,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         'store', 'update', 'destroy',
     ]);
 
-    Route::apiResource('blogs', BlogController::class)->except(['index']);
+
+    Route::post('/blogs', [BlogController::class, 'store']);
+    Route::get('/blogs/{blog}', [BlogController::class, 'show']);
+    Route::post('/blogs/{blog}', [BlogController::class, 'update']);
+    Route::delete('/blogs/{blog}', [BlogController::class, 'destroy']);
+
     Route::get('/messages', [ContactController::class, 'index']);
 });
 

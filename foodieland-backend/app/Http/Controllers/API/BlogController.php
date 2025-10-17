@@ -7,6 +7,7 @@ use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Models\Blog;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Gate;
 
 class BlogController extends Controller
 {
@@ -48,7 +49,10 @@ class BlogController extends Controller
 
     public function destroy(Blog $blog)
     {
-        $this->authorize('delete', $blog);
+        // $this->authorize('delete', $blog);
+        if (! Gate::allows('create', Blog::class)) {
+            abort(403);
+        }
         $blog->delete();
 
         return response()->json(['message' => 'Blog post successfully deleted.']);

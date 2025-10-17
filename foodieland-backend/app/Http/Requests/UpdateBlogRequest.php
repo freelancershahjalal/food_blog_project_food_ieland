@@ -22,7 +22,7 @@ class UpdateBlogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sometimes|required|string|max:255|unique:blogs,title,' . $this->route('blog')->id,
+            'title' => 'sometimes|required|string|max:255|unique:blogs,title,' . $this->blog->id,
             'category_id' => 'sometimes|required|exists:categories,id',
             'short_description' => 'sometimes|required|string|max:500',
             'content' => 'sometimes|required|string',

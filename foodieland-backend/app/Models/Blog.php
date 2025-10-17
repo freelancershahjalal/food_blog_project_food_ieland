@@ -9,12 +9,17 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-class Blog extends Model
+class Blog extends Model implements HasMedia
 {
     use HasFactory, HasSlug, InteractsWithMedia;
     protected $fillable = [
-        'user_id', 'category_id', 'title', 'slug', 'short_description', 'content'
-    ];
+    'user_id',
+    'category_id',
+    'title', 
+    'slug',
+    'short_description', 
+    'content',           
+];
 
     
 
